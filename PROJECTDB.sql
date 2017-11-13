@@ -13,20 +13,20 @@ CREATE TABLE cliente (
 ALTER TABLE cliente ADD CONSTRAINT cliente_pk PRIMARY KEY ( id_cliente );
 
 CREATE TABLE direccion (
-    id_direcci髇   INTEGER NOT NULL,
+    id_direcci贸n   INTEGER NOT NULL,
     descripcion    VARCHAR2(30) NOT NULL
 );
 
-ALTER TABLE direccion ADD CONSTRAINT direccion_pk PRIMARY KEY ( id_direcci髇 );
+ALTER TABLE direccion ADD CONSTRAINT direccion_pk PRIMARY KEY ( id_direcci贸n );
 
 CREATE TABLE direccion_cliente (
     registrada_desde   DATE NOT NULL,
     registrada_hasta   DATE,
-    id_direcci髇       INTEGER NOT NULL,
+    id_direcci贸n       INTEGER NOT NULL,
     id_cliente         INTEGER NOT NULL
 );
 
-ALTER TABLE direccion_cliente ADD CONSTRAINT direccion_cliente_pk PRIMARY KEY ( id_direcci髇,id_cliente );
+ALTER TABLE direccion_cliente ADD CONSTRAINT direccion_cliente_pk PRIMARY KEY ( id_direcci贸n,id_cliente );
 
 CREATE TABLE envio_articulos (
     id_envio_articulos            INTEGER NOT NULL,
@@ -184,8 +184,8 @@ ALTER TABLE direccion_cliente
         REFERENCES cliente ( id_cliente );
 
 ALTER TABLE direccion_cliente
-    ADD CONSTRAINT direccion_cliente_direccion_fk FOREIGN KEY ( id_direcci髇 )
-        REFERENCES direccion ( id_direcci髇 );
+    ADD CONSTRAINT direccion_cliente_direccion_fk FOREIGN KEY ( id_direcci贸n )
+        REFERENCES direccion ( id_direcci贸n );
 
 ALTER TABLE envio_articulos
     ADD CONSTRAINT envio_art_orden_art_fk FOREIGN KEY ( "_orden_articulo_id","_Orden_id_orden","_Orden_Cliente_id_cliente","_codigo_estado_orden"
@@ -352,7 +352,21 @@ NOCYCLE
 CACHE  20
 NOORDER;
 
+CREATE SEQUENCE PROJECTDB.SEQ_id_tipo_pago
+MINVALUE 1
+NOMAXVALUE
+START WITH 1
+NOCYCLE
+CACHE  20
+NOORDER;
+
 INSERT INTO estado_orden (codigo_estado_orden,descripcion) VALUES (SEQ_id_estado_orden.nextval, 'Completada');
 INSERT INTO estado_orden (codigo_estado_orden,descripcion) VALUES (SEQ_id_estado_orden.nextval, 'Cancelada');
+
+INSERT INTO tipo_de_pago (id_tipo_pago,descripcion) VALUES (SEQ_id_tipo_pago.nextval, 'Tarjeta-Credito');
+INSERT INTO tipo_de_pago (id_tipo_pago,descripcion) VALUES (SEQ_id_tipo_pago.nextval, 'Tarjeta-Debito');
+INSERT INTO tipo_de_pago (id_tipo_pago,descripcion) VALUES (SEQ_id_tipo_pago.nextval, 'Efectivo');
+
+--Prueba de comentario
 
 COMMIT;
