@@ -369,4 +369,6 @@ INSERT INTO tipo_de_pago (id_tipo_pago,descripcion) VALUES (SEQ_id_tipo_pago.nex
 
 --Prueba de comentario
 
+--Prueba de comentario2
+
 COMMIT;
