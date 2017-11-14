@@ -1,3 +1,12 @@
+CREATE OR REPLACE PACKAGE pkg_management IS
+   
+END pkg_management;
+
+CREATE OR REPLACE PACKAGE BODY pkg_management IS
+
+
+ END  pkg_management;
+
 CREATE TABLE cliente (
     id_cliente         INTEGER NOT NULL,
     codigo_cliente     INTEGER NOT NULL,
