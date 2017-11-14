@@ -1,9 +1,12 @@
 CREATE OR REPLACE PACKAGE pkg_management IS
-   
+PROCEDURE agregar_direccion (id_dire INTEGER, des VARCHAR2);   
 END pkg_management;
 
 CREATE OR REPLACE PACKAGE BODY pkg_management IS
-
+PROCEDURE agregar_direccion (id_dire INTEGER, des VARCHAR2) IS
+ BEGIN
+      INSERT INTO direccion (id_direccion, descripcion) VALUES (id_dire, des);
+      END;
 
  END  pkg_management;
 
@@ -22,20 +25,20 @@ CREATE TABLE cliente (
 ALTER TABLE cliente ADD CONSTRAINT cliente_pk PRIMARY KEY ( id_cliente );
 
 CREATE TABLE direccion (
-    id_dirección   INTEGER NOT NULL,
+    id_direccion   INTEGER NOT NULL,
     descripcion    VARCHAR2(30) NOT NULL
 );
 
-ALTER TABLE direccion ADD CONSTRAINT direccion_pk PRIMARY KEY ( id_dirección );
+ALTER TABLE direccion ADD CONSTRAINT direccion_pk PRIMARY KEY ( id_direccion );
 
 CREATE TABLE direccion_cliente (
     registrada_desde   DATE NOT NULL,
     registrada_hasta   DATE,
-    id_dirección       INTEGER NOT NULL,
+    id_direccion       INTEGER NOT NULL,
     id_cliente         INTEGER NOT NULL
 );
 
-ALTER TABLE direccion_cliente ADD CONSTRAINT direccion_cliente_pk PRIMARY KEY ( id_dirección,id_cliente );
+ALTER TABLE direccion_cliente ADD CONSTRAINT direccion_cliente_pk PRIMARY KEY ( id_direccion,id_cliente );
 
 CREATE TABLE envio_articulos (
     id_envio_articulos            INTEGER NOT NULL,
@@ -193,8 +196,8 @@ ALTER TABLE direccion_cliente
         REFERENCES cliente ( id_cliente );
 
 ALTER TABLE direccion_cliente
-    ADD CONSTRAINT direccion_cliente_direccion_fk FOREIGN KEY ( id_dirección )
-        REFERENCES direccion ( id_dirección );
+    ADD CONSTRAINT direccion_cliente_direccion_fk FOREIGN KEY ( id_direccion )
+        REFERENCES direccion ( id_direccion );
 
 ALTER TABLE envio_articulos
     ADD CONSTRAINT envio_art_orden_art_fk FOREIGN KEY ( "_orden_articulo_id","_Orden_id_orden","_Orden_Cliente_id_cliente","_codigo_estado_orden"
@@ -387,5 +390,12 @@ INSERT INTO tipo_de_pago (id_tipo_pago,descripcion) VALUES (SEQ_id_tipo_pago.nex
 
 INSERT INTO estado_factura (id_estado_factura ,descripcion_estado) VALUES (SEQ_estado_factura.nextval, 'Emitida');
 INSERT INTO estado_factura (id_estado_factura ,descripcion_estado) VALUES (SEQ_estado_factura.nextval, 'Cancel');
+
+DECLARE 
+INGDIRE VARCHAR2(30) := '0-55, 16 Calle 10, Guatemala';
+BEGIN
+pkg_management.agregar_direccion(SEQ_direccion.nextval,INGDIRE);
+DBMS_OUTPUT.PUT_LINE('INGRESO DIRECCION'||INGDIRE);
+END;
 
 COMMIT;
