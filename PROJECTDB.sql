@@ -198,6 +198,8 @@ ALTER TABLE direccion_cliente
 ALTER TABLE direccion_cliente
     ADD CONSTRAINT direccion_cliente_direccion_fk FOREIGN KEY ( id_direccion )
         REFERENCES direccion ( id_direccion );
+        
+
 
 ALTER TABLE envio_articulos
     ADD CONSTRAINT envio_art_orden_art_fk FOREIGN KEY ( "_orden_articulo_id","_Orden_id_orden","_Orden_Cliente_id_cliente","_codigo_estado_orden"
@@ -397,5 +399,11 @@ BEGIN
 pkg_management.agregar_direccion(SEQ_direccion.nextval,INGDIRE);
 DBMS_OUTPUT.PUT_LINE('INGRESO DIRECCION'||INGDIRE);
 END;
+
+SELECT  c.* , dc.ID_DIRECCION,d.DESCRIPCION, dc.REGISTRADA_DESDE, dc.REGISTRADA_HASTA
+FROM cliente c left join direccion_cliente dc
+on c.id_cliente = dc.id_cliente
+left join direccion d
+on d.id_direccion = dc.id_direccion;
 
 COMMIT;
