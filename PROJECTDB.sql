@@ -1,5 +1,6 @@
 CREATE OR REPLACE PACKAGE pkg_management IS
 PROCEDURE agregar_direccion (id_dire INTEGER, des VARCHAR2);   
+PROCEDURE agregar_cliente (id_c INTEGER,cod_c INTEGER, p_nombre VARCHAR2, s_nombre VARCHAR2, p_apellido VARCHAR2, s_apellido VARCHAR2, n_tel INTEGER, corr_c VARCHAR2, o_detalles VARCHAR2 );  
 END pkg_management;
 
 CREATE OR REPLACE PACKAGE BODY pkg_management IS
@@ -7,9 +8,15 @@ PROCEDURE agregar_direccion (id_dire INTEGER, des VARCHAR2) IS
  BEGIN
       INSERT INTO direccion (id_direccion, descripcion) VALUES (id_dire, des);
       END;
-
+            
+PROCEDURE agregar_cliente (id_c INTEGER,cod_c INTEGER, p_nombre VARCHAR2, s_nombre VARCHAR2, p_apellido VARCHAR2, s_apellido VARCHAR2, n_tel INTEGER, corr_c VARCHAR2, o_detalles VARCHAR2 )IS       
+BEGIN
+      INSERT INTO cliente (id_cliente,codigo_cliente, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, n_telefono, correo, otros_detalles)
+            VALUES (id_c, cod_c, p_nombre, s_nombre, p_apellido, s_apellido, n_tel, corr_c,o_detalles );
+      END;      
  END  pkg_management;
-
+ 
+ 
 CREATE TABLE cliente (
     id_cliente         INTEGER NOT NULL,
     codigo_cliente     INTEGER NOT NULL,
