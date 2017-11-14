@@ -377,13 +377,6 @@ INSERT INTO tipo_de_pago (id_tipo_pago,descripcion) VALUES (SEQ_id_tipo_pago.nex
 INSERT INTO tipo_de_pago (id_tipo_pago,descripcion) VALUES (SEQ_id_tipo_pago.nextval, 'Efectivo');
 
 INSERT INTO estado_factura (id_estado_factura ,descripcion_estado) VALUES (SEQ_estado_factura.nextval, 'Emitida');
-
---Prueba de comentario
-
---Prueba de comentario2
-
---Prueba de comentario5
-
---Prueba de comentario6
+INSERT INTO estado_factura (id_estado_factura ,descripcion_estado) VALUES (SEQ_estado_factura.nextval, 'Cancel');
 
 COMMIT;
