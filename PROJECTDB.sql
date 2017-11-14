@@ -384,4 +384,6 @@ INSERT INTO estado_factura (id_estado_factura ,descripcion_estado) VALUES (SEQ_e
 
 --Prueba de comentario5
 
+--Prueba de comentario6
+
 COMMIT;
