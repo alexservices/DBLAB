@@ -1,6 +1,7 @@
 CREATE OR REPLACE PACKAGE pkg_management IS
 PROCEDURE agregar_direccion (id_dire INTEGER, des VARCHAR2);   
 PROCEDURE agregar_cliente (id_c INTEGER,cod_c INTEGER, p_nombre VARCHAR2, s_nombre VARCHAR2, p_apellido VARCHAR2, s_apellido VARCHAR2, n_tel INTEGER, corr_c VARCHAR2, o_detalles VARCHAR2 );  
+PROCEDURE agregar_dicliente (id_dire INTEGER, id_c INTEGER,r_desde DATE, r_hasta DATE);  
 END pkg_management;
 
 CREATE OR REPLACE PACKAGE BODY pkg_management IS
@@ -14,7 +15,15 @@ BEGIN
       INSERT INTO cliente (id_cliente,codigo_cliente, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, n_telefono, correo, otros_detalles)
             VALUES (id_c, cod_c, p_nombre, s_nombre, p_apellido, s_apellido, n_tel, corr_c,o_detalles );
       END;      
+      
+PROCEDURE agregar_dicliente (id_dire INTEGER, id_c INTEGER,r_desde DATE, r_hasta DATE) IS
+BEGIN
+      INSERT INTO direccion_cliente (id_direccion, id_cliente,registrada_desde,registrada_hasta) VALUES (id_dire, id_c,r_desde,r_hasta);
+      END;
+      
  END  pkg_management;
+ 
+ 
  
  
 CREATE TABLE cliente (
@@ -412,5 +421,26 @@ FROM cliente c left join direccion_cliente dc
 on c.id_cliente = dc.id_cliente
 left join direccion d
 on d.id_direccion = dc.id_direccion;
+
+
+
+
+DECLARE 
+id_c INTEGER:= 2753880101;
+p_nombre VARCHAR2(30):= 'Luis';
+s_nombre VARCHAR2(30):= 'Ivan';
+p_apellido VARCHAR2(30):= 'Sandoval';
+s_apellido VARCHAR2(30):= 'Echeverria';
+n_tel INTEGER:= 42606484;
+corr_c VARCHAR2(30):= 'ivan.s@hotmail.com';
+INGDIRE VARCHAR2(30) := 'Av Bolívar 28-02 Zona 3';
+BEGIN
+PKG_MANAGEMENT.AGREGAR_CLIENTE(id_c,SEQ_codcliente.nextval,p_nombre,s_nombre,p_apellido,s_apellido,n_tel,corr_c,'' );
+pkg_management.agregar_direccion(SEQ_direccion.nextval,INGDIRE);
+PKG_MANAGEMENT.AGREGAR_DICLIENTE(SEQ_direccion.currval,id_c,'11/04/1992',null);
+END;
+
+
+
 
 COMMIT;
