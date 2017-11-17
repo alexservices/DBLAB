@@ -32,9 +32,11 @@ FUNCTION  obtener_detclientes return sys_refcursor IS
 v_result sys_refcursor;
 BEGIN 
 open v_result for
-SELECT p.*, tp.descripcion
-FROM productos p left join tipo_producto tp
-on p.TIPO_PRODUCTO_ID_TIPO=tp.ID_TIPO;
+SELECT  c.* , dc.ID_DIRECCION,d.DESCRIPCION, dc.REGISTRADA_DESDE, dc.REGISTRADA_HASTA
+FROM cliente c left join direccion_cliente dc
+on c.id_cliente = dc.id_cliente
+left join direccion d
+on d.id_direccion = dc.id_direccion;
 return (v_result);
 END;            
 END  pkg_management;
