@@ -474,4 +474,19 @@ pkg_management.agregar_producto (SEQ_id_productos.nextval,marc,prec,o_det,tipo_p
 END;
 
 
+DECLARE 
+id_c INTEGER:= 2753740101;
+p_nombre VARCHAR2(30):= 'Maria';
+s_nombre VARCHAR2(30):= 'Fernanda';
+p_apellido VARCHAR2(30):= 'Gomez';
+s_apellido VARCHAR2(30):= 'Lemus';
+n_tel INTEGER:= 43154287;
+corr_c VARCHAR2(30):= 'maria.g@hotmail.com';
+INGDIRE VARCHAR2(30) := 'Av Bolívar 25-02 Zona 5';
+BEGIN
+PKG_MANAGEMENT.AGREGAR_CLIENTE(id_c,SEQ_codcliente.nextval,p_nombre,s_nombre,p_apellido,s_apellido,n_tel,corr_c,'' );
+pkg_management.agregar_direccion(SEQ_direccion.nextval,INGDIRE);
+PKG_MANAGEMENT.AGREGAR_DICLIENTE(SEQ_direccion.currval,id_c,'06/04/2011',null);
+END;
+
 COMMIT;
