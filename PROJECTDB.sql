@@ -2,6 +2,7 @@ CREATE OR REPLACE PACKAGE pkg_management IS
 PROCEDURE agregar_direccion (id_dire INTEGER, des VARCHAR2);   
 PROCEDURE agregar_cliente (id_c INTEGER,cod_c INTEGER, p_nombre VARCHAR2, s_nombre VARCHAR2, p_apellido VARCHAR2, s_apellido VARCHAR2, n_tel INTEGER, corr_c VARCHAR2, o_detalles VARCHAR2 );  
 PROCEDURE agregar_dicliente (id_dire INTEGER, id_c INTEGER,r_desde DATE, r_hasta DATE);  
+PROCEDURE agregar_producto (id_prod INTEGER, marc VARCHAR2,prec FLOAT, o_detalles VARCHAR2,idtipo_prod INTEGER);  
 END pkg_management;
 
 CREATE OR REPLACE PACKAGE BODY pkg_management IS
@@ -21,6 +22,11 @@ BEGIN
       INSERT INTO direccion_cliente (id_direccion, id_cliente,registrada_desde,registrada_hasta) VALUES (id_dire, id_c,r_desde,r_hasta);
       END;
       
+PROCEDURE agregar_producto (id_prod INTEGER, marc VARCHAR2,prec FLOAT, o_detalles VARCHAR2,idtipo_prod INTEGER) IS
+BEGIN
+      INSERT INTO productos (id_producto, marca,precio,otros_detalles,tipo_producto_id_tipo) VALUES (id_prod,marc,prec,o_detalles,idtipo_prod);
+      END;
+            
  END  pkg_management;
  
  
@@ -409,6 +415,9 @@ INSERT INTO tipo_de_pago (id_tipo_pago,descripcion) VALUES (SEQ_id_tipo_pago.nex
 INSERT INTO estado_factura (id_estado_factura ,descripcion_estado) VALUES (SEQ_estado_factura.nextval, 'Emitida');
 INSERT INTO estado_factura (id_estado_factura ,descripcion_estado) VALUES (SEQ_estado_factura.nextval, 'Cancel');
 
+INSERT INTO tipo_producto (id_tipo ,descripcion) VALUES (SEQ_id_tipo_producto.nextval, 'Linea_Masculino');
+INSERT INTO tipo_producto (id_tipo ,descripcion) VALUES (SEQ_id_tipo_producto.nextval, 'Linea_Femenino');
+
 DECLARE 
 INGDIRE VARCHAR2(30) := '0-55, 16 Calle 10, Guatemala';
 BEGIN
@@ -422,6 +431,9 @@ on c.id_cliente = dc.id_cliente
 left join direccion d
 on d.id_direccion = dc.id_direccion;
 
+SELECT p.*, tp.descripcion
+FROM productos p left join tipo_producto tp
+on p.TIPO_PRODUCTO_ID_TIPO=tp.ID_TIPO;
 
 
 
@@ -440,7 +452,14 @@ pkg_management.agregar_direccion(SEQ_direccion.nextval,INGDIRE);
 PKG_MANAGEMENT.AGREGAR_DICLIENTE(SEQ_direccion.currval,id_c,'11/04/1992',null);
 END;
 
-
+DECLARE 
+marc VARCHAR2(30) := '512';
+prec FLOAT(2) := 250.00;
+o_det VARCHAR2(2) := '';
+tipo_p_itipo INTEGER := 1;
+BEGIN
+pkg_management.agregar_producto (SEQ_id_productos.nextval,marc,prec,o_det,tipo_p_itipo);  
+END;
 
 
 COMMIT;
