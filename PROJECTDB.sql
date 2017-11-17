@@ -3,6 +3,7 @@ PROCEDURE agregar_direccion (id_dire INTEGER, des VARCHAR2);
 PROCEDURE agregar_cliente (id_c INTEGER,cod_c INTEGER, p_nombre VARCHAR2, s_nombre VARCHAR2, p_apellido VARCHAR2, s_apellido VARCHAR2, n_tel INTEGER, corr_c VARCHAR2, o_detalles VARCHAR2 );  
 PROCEDURE agregar_dicliente (id_dire INTEGER, id_c INTEGER,r_desde DATE, r_hasta DATE);  
 PROCEDURE agregar_producto (id_prod INTEGER, marc VARCHAR2,prec FLOAT, o_detalles VARCHAR2,idtipo_prod INTEGER);  
+FUNCTION  obtener_detclientes return sys_refcursor;
 END pkg_management;
 
 CREATE OR REPLACE PACKAGE BODY pkg_management IS
@@ -26,8 +27,17 @@ PROCEDURE agregar_producto (id_prod INTEGER, marc VARCHAR2,prec FLOAT, o_detalle
 BEGIN
       INSERT INTO productos (id_producto, marca,precio,otros_detalles,tipo_producto_id_tipo) VALUES (id_prod,marc,prec,o_detalles,idtipo_prod);
       END;
-            
- END  pkg_management;
+      
+FUNCTION  obtener_detclientes return sys_refcursor IS
+v_result sys_refcursor;
+BEGIN 
+open v_result for
+SELECT p.*, tp.descripcion
+FROM productos p left join tipo_producto tp
+on p.TIPO_PRODUCTO_ID_TIPO=tp.ID_TIPO;
+return (v_result);
+END;            
+END  pkg_management;
  
  
  
