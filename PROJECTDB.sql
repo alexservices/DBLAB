@@ -2,6 +2,7 @@ CREATE OR REPLACE PACKAGE pkg_gestion IS
 PROCEDURE agregar_tipopago (d_tpago in varchar2);
 procedure cambiar_tipopago (id_tpago in integer,d_tpago in varchar2); 
 procedure eliminar_tipopago(id_tpago in integer);
+function  obtener_todostpago return sys_refcursor;
 END pkg_gestion;
 
 CREATE OR REPLACE PACKAGE BODY pkg_gestion IS
@@ -23,6 +24,14 @@ procedure eliminar_tipopago(id_tpago in integer) is
 begin
 delete from tipo_pago
 where id_tipo_pago= id_tpago;
+end;
+
+function obtener_todostpago return sys_refcursor is
+v_result sys_refcursor;
+begin
+open v_result for
+select * from tipo_pago;
+return (v_result);
 end;
 
 END  pkg_gestion;
@@ -421,7 +430,6 @@ START WITH 1
 NOCYCLE
 CACHE  20
 NOORDER;
-
 
 
 commit;
