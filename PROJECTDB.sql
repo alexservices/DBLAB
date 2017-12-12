@@ -1,4 +1,31 @@
+CREATE OR REPLACE PACKAGE pkg_gestion IS
+PROCEDURE agregar_tipopago (d_tpago in varchar2);
+procedure cambiar_tipopago (id_tpago in integer,d_tpago in varchar2); 
+procedure eliminar_tipopago(id_tpago in integer);
+END pkg_gestion;
 
+CREATE OR REPLACE PACKAGE BODY pkg_gestion IS
+
+procedure agregar_tipopago (d_tpago in varchar2)is
+begin
+insert into tipo_pago(id_tipo_pago, d_tipopago)
+values (SEQ_idtipopago.nextval,d_tpago);
+end;
+
+procedure cambiar_tipopago (id_tpago in integer,d_tpago in varchar2) is
+begin
+update tipo_pago 
+set d_tipopago= d_tpago
+where id_tipo_pago=id_tpago;
+end;
+
+procedure eliminar_tipopago(id_tpago in integer) is
+begin
+delete from tipo_pago
+where id_tipo_pago= id_tpago;
+end;
+
+END  pkg_gestion;
 
 
 CREATE TABLE cant_orden_producto (
@@ -394,6 +421,7 @@ START WITH 1
 NOCYCLE
 CACHE  20
 NOORDER;
+
 
 
 commit;
