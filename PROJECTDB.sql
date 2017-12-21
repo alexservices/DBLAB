@@ -1,9 +1,20 @@
 /* Paquete*/
 create or replace package pkg_gestion is
+/*tipo pago */
 procedure agregar_tipopago (d_tpago in varchar2);
 procedure cambiar_tipopago (id_tpago in integer,d_tpago in varchar2); 
 procedure eliminar_tipopago(id_tpago in integer);
 function  obtener_todostpago return sys_refcursor;
+/* pais */
+procedure agregar_pais (nom_pais in varchar2);
+procedure cambiar_pais(id_p in integer,nom_pais in varchar2);
+procedure eliminar_pais(id_p in integer);
+function  obtener_todospais return sys_refcursor;
+/* estado */
+procedure agregar_estado (nom_estado in varchar2, id_p in integer);
+procedure cambiar_estado(id_e in integer,nom_estado in varchar2,id_p in integer);
+procedure eliminar_estado(id_e in integer);
+function  obtener_estadosbypais return sys_refcursor;
 END pkg_gestion;
 /* Cuerpo del paquete*/
 create or replace package body pkg_gestion is
@@ -29,6 +40,52 @@ v_result sys_refcursor;
 begin
 open v_result for
 select * from tipo_pago;
+return (v_result);
+end;
+/*Gestion pais */
+procedure agregar_pais (nom_pais in varchar2)is
+begin
+insert into pais(id_pais,n_pais) values (seq_idpais.nextval,nom_pais);
+end;
+procedure cambiar_pais(id_p in integer,nom_pais in varchar2)is
+begin
+update pais 
+set n_pais= nom_pais
+where id_pais=id_p;
+end;
+procedure eliminar_pais(id_p in integer) is
+begin
+delete from pais
+where id_pais= id_p;
+end;
+function obtener_todospais return sys_refcursor is
+v_result sys_refcursor;
+begin
+open v_result for
+select * from pais;
+return (v_result);
+end;
+/*Gestion estado*/
+procedure agregar_estado (nom_estado in varchar2, id_p in integer)is
+begin
+insert into estado(id_estado,n_estado,id_pais) values (seq_idestado.nextval,nom_estado,id_p);
+end;
+procedure cambiar_estado(id_e in integer,nom_estado in varchar2,id_p in integer) is
+begin
+update estado 
+set n_estado= nom_estado, id_pais = id_p
+where id_estado=id_e;
+end;
+procedure eliminar_estado(id_e in integer) is
+begin
+delete from estado
+where id_estado= id_e;
+end;
+function obtener_estadosbypais return sys_refcursor is
+v_result sys_refcursor;
+begin
+open v_result for
+select * from estado order by id_pais;
 return (v_result);
 end;
 END  pkg_gestion;
@@ -400,4 +457,55 @@ NOCYCLE
 CACHE  20
 NOORDER;
 
+procedure agregar_direccion
+(dir_descrip in varchar2, 
+nom_pais in varchar2,
+nom_estado in varchar2, 
+cod_postal in integer,
+nom_ciudad in varchar2);
+
+/*Pruebas Pais
+declare 
+nom_pais varchar2(30) := 'Guatemala';
+BEGIN
+pkg_gestion.agregar_pais(nom_pais);
+END;
+declare 
+nom_pais varchar2(30) := 'Honduras';
+BEGIN
+pkg_gestion.agregar_pais(nom_pais);
+END;
+declare 
+nom_pais varchar2(30) := 'Nicaragua';
+BEGIN
+pkg_gestion.agregar_pais(nom_pais);
+END;
+declare
+id_p number:=3;
+nom_pais varchar2(30) := 'Costa Rica';
+BEGIN
+pkg_gestion.cambiar_pais(id_p,nom_pais);
+END;
+declare
+id_p number:=3;
+BEGIN
+pkg_gestion.eliminar_pais(id_p);
+END;
+SELECT PKG_GESTION.OBTENER_TODOSPAIS() FROM DUAL;
+*/
+/*Pruebas estado
+declare 
+nom_estado varchar2(30) := 'Guatemala';
+id_p number:=1;
+BEGIN
+pkg_gestion.agregar_estado(nom_estado,id_p);
+END;
+declare 
+nom_estado varchar2(30) := 'San Pedro Sula';
+id_p number:=2;
+BEGIN
+pkg_gestion.agregar_estado(nom_estado,id_p);
+END;
+SELECT PKG_GESTION.obtener_estadosbypais() FROM DUAL;
+*/
 commit;
