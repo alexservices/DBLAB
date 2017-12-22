@@ -457,12 +457,6 @@ NOCYCLE
 CACHE  20
 NOORDER;
 
-procedure agregar_direccion
-(dir_descrip in varchar2, 
-nom_pais in varchar2,
-nom_estado in varchar2, 
-cod_postal in integer,
-nom_ciudad in varchar2);
 
 /*Pruebas Pais
 declare 
