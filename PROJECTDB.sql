@@ -637,4 +637,7 @@ pkg_gestion.agregar_estado(nom_estado,id_p);
 END;
 SELECT PKG_GESTION.obtener_estadosbypais() FROM DUAL;
 */
+
+/*Pruebas ciudad*/
+
 commit;
