@@ -15,6 +15,11 @@ procedure agregar_estado (nom_estado in varchar2, id_p in integer);
 procedure cambiar_estado(id_e in integer,nom_estado in varchar2,id_p in integer);
 procedure eliminar_estado(id_e in integer);
 function  obtener_estadosbypais return sys_refcursor;
+/* ciudad */
+procedure agregar_ciudad (nom_ciudad in varchar2, id_e in integer);
+procedure cambiar_ciudad(codigo_p in integer,nom_ciudad in varchar2,id_e in integer);
+procedure eliminar_ciudad(codigo_p in integer);
+function  obtener_ciudadebyestado return sys_refcursor;
 END pkg_gestion;
 /* Cuerpo del paquete*/
 create or replace package body pkg_gestion is
@@ -88,9 +93,32 @@ open v_result for
 select * from estado order by id_pais;
 return (v_result);
 end;
+/*Gestion ciudad*/
+procedure agregar_ciudad (nom_ciudad in varchar2, id_e in integer)is
+begin
+insert into ciudad(codigo_postal,n_ciudad,id_estado) values (seq_idciudad.nextval,nom_ciudad,id_e);
+end;
+procedure cambiar_ciudad(codigo_p in integer,nom_ciudad in varchar2,id_e in integer) is
+begin
+update ciudad 
+set n_ciudad= nom_ciudad, id_estado = id_e
+where codigo_postal=codigo_p;
+end;
+procedure eliminar_ciudad(codigo_p in integer) is
+begin
+delete from ciudad
+where codigo_postal= codigo_p;
+end;
+function obtener_ciudadebyestado return sys_refcursor is
+v_result sys_refcursor;
+begin
+open v_result for
+select * from ciudad order by id_estado;
+return (v_result);
+end;
 END  pkg_gestion;
-/*Tablas y alteraciones */
 
+/*Tablas y alteraciones */
 create table ordenes_audit(
 NEW_NAME VARCHAR2(30),
 OLD_NAME VARCHAR2(30),
@@ -559,7 +587,7 @@ pkg_gestion.agregar_tipopago(d_tpago);
 END;
 */
 
-/*Pruebas Pais */
+/*Pruebas Pais 
 declare 
 nom_pais varchar2(30) := 'Guatemala';
 BEGIN
@@ -592,6 +620,7 @@ pkg_gestion.eliminar_pais(id_p);
 END;
 
 SELECT PKG_GESTION.OBTENER_TODOSPAIS() FROM DUAL;
+*/
 
 /*Pruebas estado
 declare 
