@@ -639,5 +639,11 @@ SELECT PKG_GESTION.obtener_estadosbypais() FROM DUAL;
 */
 
 /*Pruebas ciudad*/
+declare 
+nom_ciudad varchar2(30) := 'Guatemala';
+id_e number:=1;
+BEGIN
+pkg_gestion.agregar_ciudad(nom_ciudad,id_e);
+END;
 
 commit;
