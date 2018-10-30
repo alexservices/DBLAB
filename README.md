@@ -1,2 +1,2 @@
-# DBProject
-DB1 Project
+# Proyecto Base de Datos I
+Proveedores y Cuentas por Pagar
